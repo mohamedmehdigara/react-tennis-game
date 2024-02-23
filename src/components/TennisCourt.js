@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import CourtLines from './CourtLines';
-import Net from './Net';
 import Scoreboard from './Scoreboard';
+import Player from './Player';
+import Net from './Net';
+import GameControls from './GameControls';
 
 const bounceAnimation = keyframes`
   0% {
@@ -33,40 +35,6 @@ const TennisBall = styled.div`
   animation: ${bounceAnimation} 0.5s ease infinite;
 `;
 
-const Player = styled.div`
-  position: absolute;
-  width: 20px;
-  height: 80px;
-  background-color: white;
-`;
-
-const Score = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 24px;
-  color: white;
-`;
-
-const Button = styled.button`
-  position: absolute;
-  bottom: 20px;
-  left: ${props => props.position === 'left' ? '20px' : 'auto'};
-  right: ${props => props.position === 'right' ? '20px' : 'auto'};
-  padding: 10px 20px;
-  font-size: 18px;
-`;
-
-const GameStatus = styled.div`
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-  color: white;
-`;
-
 const TennisCourt = ({ playerAScore, playerBScore, onPlayerAScore, onPlayerBScore }) => {
   const [ballPosition, setBallPosition] = useState({ x: 300, y: 150 });
 
@@ -78,11 +46,15 @@ const TennisCourt = ({ playerAScore, playerBScore, onPlayerAScore, onPlayerBScor
     <CourtContainer>
       <CourtLines />
       <TennisBall style={{ left: ballPosition.x, top: ballPosition.y }} />
-      <Player style={{ left: '20px', top: '50%' }} />
-      <Player style={{ right: '20px', top: '50%' }} />
+      <Scoreboard playerAScore={playerAScore} playerBScore={playerBScore} />
+      <Player name="Player A" position="left" />
+      <Player name="Player B" position="right" />
       <Net />
-      <Scoreboard>Score: 0-0</Scoreboard>
-      {/* Player components, Score display, Buttons, and GameStatus */}
+      <GameControls 
+        onStart={() => moveBall()} 
+        onPause={() => console.log('Game paused')} 
+        onRestart={() => console.log('Game restarted')} 
+      />
     </CourtContainer>
   );
 };

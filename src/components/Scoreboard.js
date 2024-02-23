@@ -23,7 +23,7 @@ const ScoreValue = styled.div`
   color: #333;
 `;
 
-const Scoreboard = ({ playerAScore, playerBScore, setScore }) => {
+const Scoreboard = ({ playerAScore, playerBScore }) => {
   return (
     <ScoreboardContainer>
       <ScoreRow>
