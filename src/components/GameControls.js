@@ -24,12 +24,27 @@ const Button = styled.button`
   }
 `;
 
-const GameControls = ({ onStart, onPause, onRestart }) => {
+const Input = styled.input`
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const GameControls = ({ onStart, onPause, onRestart, onSetDuration, duration }) => {
   return (
     <ControlsContainer>
       <Button onClick={onStart}>Start</Button>
       <Button onClick={onPause}>Pause</Button>
       <Button onClick={onRestart}>Restart</Button>
+      <label>Set Duration:</label>
+      <Input 
+        type="number" 
+        min="1" 
+        max="60" 
+        value={duration} 
+        onChange={(e) => onSetDuration(parseInt(e.target.value))} 
+      />
     </ControlsContainer>
   );
 };

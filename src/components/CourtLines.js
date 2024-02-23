@@ -9,31 +9,69 @@ const CourtLinesContainer = styled.div`
 `;
 
 const Baseline = styled.div`
-  /* Styles for baseline */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
 `;
 
 const ServiceLine = styled.div`
-  /* Styles for service line */
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
 `;
 
 const CenterLine = styled.div`
-  /* Styles for center line */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: white;
 `;
 
 const SinglesSideline = styled.div`
-  /* Styles for singles sideline */
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 2px;
+  background-color: white;
 `;
 
 const DoublesSideline = styled.div`
-  /* Styles for doubles sideline */
+  position: absolute;
+  top: 0;
+  left: calc(50% - 11ft);
+  height: 100%;
+  width: 2px;
+  background-color: white;
 `;
 
 const CenterServiceLine = styled.div`
-  /* Styles for center service line */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 40px;
+  background-color: white;
 `;
 
 const Net = styled.div`
-  /* Styles for net */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 200px;
+  background-color: white;
 `;
 
 const CourtLines = () => {
