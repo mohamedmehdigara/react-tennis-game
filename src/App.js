@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import TennisCourt from './components/TennisCourt';
 
-function App() {
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const App = () => {
+  const [playerAScore, setPlayerAScore] = useState(0);
+  const [playerBScore, setPlayerBScore] = useState(0);
+
+  const handlePlayerAScore = () => {
+    setPlayerAScore(prevScore => prevScore + 1);
+  };
+
+  const handlePlayerBScore = () => {
+    setPlayerBScore(prevScore => prevScore + 1);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <TennisCourt 
+        playerAScore={playerAScore} 
+        playerBScore={playerBScore} 
+        onPlayerAScore={handlePlayerAScore} 
+        onPlayerBScore={handlePlayerBScore} 
+      />
+    </Container>
   );
-}
+};
 
 export default App;
