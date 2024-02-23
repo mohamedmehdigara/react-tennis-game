@@ -28,6 +28,17 @@ const NetMesh = styled.div`
   transform: translateX(-50%);
 `;
 
+const NetPole = styled.div`
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  transform: translateX(-50%);
+`;
+
 const Net = () => {
   return (
     <NetContainer>
@@ -35,6 +46,7 @@ const Net = () => {
       {[...Array(10)].map((_, index) => (
         <NetMesh key={index} style={{ top: `${index * 10}%` }} />
       ))}
+      <NetPole />
     </NetContainer>
   );
 };

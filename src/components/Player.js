@@ -13,6 +13,8 @@ const PlayerContainer = styled.div`
   align-items: center;
   font-size: 14px;
   color: black;
+  border: 2px solid black; /* Adding border for better visibility */
+  border-radius: 5px; /* Rounded corners for a more polished look */
 `;
 
 const Player = ({ name, position }) => {

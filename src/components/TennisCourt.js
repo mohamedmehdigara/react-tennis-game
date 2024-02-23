@@ -1,11 +1,13 @@
 // TennisCourt.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import CourtLines from './CourtLines';
 import Scoreboard from './Scoreboard';
 import Player from './Player';
 import Net from './Net';
 import GameControls from './GameControls';
+import LeftRacket from './LeftRacket';
+import RightRacket from './RightRacket';
 
 const bounceAnimation = keyframes`
   0% {
@@ -35,12 +37,47 @@ const TennisBall = styled.div`
   animation: ${bounceAnimation} 0.5s ease infinite;
 `;
 
-const TennisCourt = ({ playerAScore, playerBScore, onPlayerAScore, onPlayerBScore }) => {
+const TennisCourt = ({ playerAScore, playerBScore }) => {
   const [ballPosition, setBallPosition] = useState({ x: 300, y: 150 });
+  const [ballSpeed, setBallSpeed] = useState({ dx: 1, dy: 1 });
 
-  const moveBall = () => {
-    // Ball movement logic
-  };
+  useEffect(() => {
+    const moveBall = () => {
+      // Get current ball position
+      let newX = ballPosition.x + ballSpeed.dx;
+      let newY = ballPosition.y + ballSpeed.dy;
+  
+      // Adjust ball position if it hits the top or bottom boundaries
+      if (newY <= 0 || newY >= 280) {
+        setBallSpeed(prevSpeed => ({ ...prevSpeed, dy: -prevSpeed.dy }));
+        newY = Math.max(0, Math.min(newY, 280)); // Ensure the ball stays within boundaries
+      }
+  
+      // Check collision with left racket
+      const leftRacketY = 120; // Y position of the top of the left racket
+      const leftRacketX = 50; // X position of the left racket
+      if (newX <= leftRacketX + 10 && newY >= leftRacketY && newY <= leftRacketY + 60) {
+        setBallSpeed(prevSpeed => ({ dx: -prevSpeed.dx, dy: prevSpeed.dy }));
+        newX = Math.max(leftRacketX + 10, newX); // Ensure the ball stays outside the racket
+      }
+  
+      // Check collision with right racket
+      const rightRacketY = 120; // Y position of the top of the right racket
+      const rightRacketX = 540; // X position of the right racket
+      if (newX >= rightRacketX - 10 && newY >= rightRacketY && newY <= rightRacketY + 60) {
+        setBallSpeed(prevSpeed => ({ dx: -prevSpeed.dx, dy: prevSpeed.dy }));
+        newX = Math.min(rightRacketX - 10, newX); // Ensure the ball stays outside the racket
+      }
+  
+      // Update ball position
+      setBallPosition({ x: newX, y: newY });
+    };
+  
+    const interval = setInterval(moveBall, 10); // Move ball every 10 milliseconds
+  
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, [ballPosition, ballSpeed]);
+  
 
   return (
     <CourtContainer>
@@ -50,10 +87,12 @@ const TennisCourt = ({ playerAScore, playerBScore, onPlayerAScore, onPlayerBScor
       <Player name="Player A" position="left" />
       <Player name="Player B" position="right" />
       <Net />
+      <LeftRacket />
+      <RightRacket />
       <GameControls 
-        onStart={() => moveBall()} 
-        onPause={() => console.log('Game paused')} 
-        onRestart={() => console.log('Game restarted')} 
+        onStart={() => setBallSpeed({ dx: 1, dy: 1 })} 
+        onPause={() => setBallSpeed({ dx: 0, dy: 0 })} 
+        onRestart={() => setBallPosition({ x: 300, y: 150 })}
       />
     </CourtContainer>
   );
