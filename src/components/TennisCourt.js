@@ -87,7 +87,7 @@ const TennisCourt = ({ playerAScore, playerBScore }) => {
       <Player name="Player A" position="left" />
       <Player name="Player B" position="right" />
       <Net />
-      <LeftRacket />
+      <LeftRacket position={50} topPosition={120} width={10} height={60} />
       <RightRacket />
       <GameControls 
         onStart={() => setBallSpeed({ dx: 1, dy: 1 })} 
