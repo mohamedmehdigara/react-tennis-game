@@ -1,6 +1,6 @@
 // CourtLines.js
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const CourtLinesContainer = styled.div`
   position: absolute;
@@ -8,82 +8,94 @@ const CourtLinesContainer = styled.div`
   height: 100%;
 `;
 
-const Baseline = styled.div`
+const baselineAnimation = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`;
+
+const Line = styled.div`
   position: absolute;
+  background-color: ${({ color }) => color || 'white'};
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  ${({ animated }) =>
+    animated &&
+    css`
+      animation: ${baselineAnimation} 0.5s ease forwards;
+    `}
+`;
+
+const Baseline = styled(Line)`
   bottom: 0;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: white;
 `;
 
-const ServiceLine = styled.div`
-  position: absolute;
+const ServiceLine = styled(Line)`
   bottom: 50%;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: white;
 `;
 
-const CenterLine = styled.div`
-  position: absolute;
+const CenterLine = styled(Line)`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
   height: 100%;
-  background-color: white;
 `;
 
-const SinglesSideline = styled.div`
-  position: absolute;
+const SinglesSideline = styled(Line)`
   top: 0;
   left: 0;
   height: 100%;
   width: 2px;
-  background-color: white;
 `;
 
-const DoublesSideline = styled.div`
-  position: absolute;
+const DoublesSideline = styled(Line)`
   top: 0;
   left: calc(50% - 11ft);
   height: 100%;
   width: 2px;
-  background-color: white;
 `;
 
-const CenterServiceLine = styled.div`
-  position: absolute;
+const CenterServiceLine = styled(Line)`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
   height: 40px;
-  background-color: white;
 `;
 
-const Net = styled.div`
-  position: absolute;
+const Net = styled(Line)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 2px;
   height: 200px;
-  background-color: white;
 `;
 
-const CourtLines = () => {
+const CourtLines = ({ courtColor, animated }) => {
   return (
     <CourtLinesContainer>
-      <Baseline />
-      <ServiceLine />
-      <CenterLine />
-      <SinglesSideline />
-      <DoublesSideline />
-      <CenterServiceLine />
-      <Net />
+      <Baseline color={courtColor} animated={animated} />
+      <ServiceLine color={courtColor} animated={animated} />
+      <CenterLine color={courtColor} animated={animated} />
+      <SinglesSideline color={courtColor} animated={animated} />
+      <DoublesSideline color={courtColor} animated={animated} />
+      <CenterServiceLine color={courtColor} animated={animated} />
+      <Net color={courtColor} animated={animated} />
     </CourtLinesContainer>
   );
 };
