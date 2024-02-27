@@ -6,7 +6,11 @@ const ControlsContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
 `;
 
 const Button = styled.button`
@@ -24,27 +28,12 @@ const Button = styled.button`
   }
 `;
 
-const Input = styled.input`
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const GameControls = ({ onStart, onPause, onRestart, onSetDuration, onIncreaseSpeed, onDecreaseSpeed, duration }) => {
+const GameControls = ({ onStart, onPause, onRestart, onIncreaseSpeed, onDecreaseSpeed }) => {
   return (
     <ControlsContainer>
       <Button onClick={onStart}>Start</Button>
       <Button onClick={onPause}>Pause</Button>
       <Button onClick={onRestart}>Restart</Button>
-      <label>Set Duration:</label>
-      <Input 
-        type="number" 
-        min="1" 
-        max="60" 
-        value={duration} 
-        onChange={(e) => onSetDuration(parseInt(e.target.value))} 
-      />
       <Button onClick={onIncreaseSpeed}>Increase Speed</Button>
       <Button onClick={onDecreaseSpeed}>Decrease Speed</Button>
     </ControlsContainer>
