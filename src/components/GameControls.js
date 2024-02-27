@@ -31,7 +31,7 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const GameControls = ({ onStart, onPause, onRestart, onSetDuration, duration }) => {
+const GameControls = ({ onStart, onPause, onRestart, onSetDuration, onIncreaseSpeed, onDecreaseSpeed, duration }) => {
   return (
     <ControlsContainer>
       <Button onClick={onStart}>Start</Button>
@@ -45,6 +45,8 @@ const GameControls = ({ onStart, onPause, onRestart, onSetDuration, duration }) 
         value={duration} 
         onChange={(e) => onSetDuration(parseInt(e.target.value))} 
       />
+      <Button onClick={onIncreaseSpeed}>Increase Speed</Button>
+      <Button onClick={onDecreaseSpeed}>Decrease Speed</Button>
     </ControlsContainer>
   );
 };
