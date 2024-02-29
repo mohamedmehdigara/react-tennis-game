@@ -1,12 +1,30 @@
 // Net.js
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+
+const swayAnimation = keyframes`
+  0% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+  100% {
+    transform: rotate(-1deg);
+  }
+`;
 
 const NetContainer = styled.div`
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  transform: translate(0, -50%);
+  width: 100%;
+  height: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${swayAnimation} 4s ease infinite alternate;
 `;
 
 const NetTop = styled.div`
@@ -15,17 +33,16 @@ const NetTop = styled.div`
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: white;
+  background: linear-gradient(to right, #ffffff, #bbbbbb);
 `;
 
 const NetMesh = styled.div`
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 1px;
+  left: calc(50% - 1px);
+  width: 2px;
   height: 100%;
-  background-color: white;
-  transform: translateX(-50%);
+  background-color: #ffffff;
 `;
 
 const NetPole = styled.div`
@@ -34,19 +51,28 @@ const NetPole = styled.div`
   left: 50%;
   width: 6px;
   height: 6px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 50%;
   transform: translateX(-50%);
 `;
 
-const Net = () => {
+const Net = ({ height, meshCount }) => {
+  const [netHeight, setNetHeight] = useState(height);
+
+  const handleHeightChange = (event) => {
+    const newHeight = parseInt(event.target.value);
+    setNetHeight(newHeight);
+  };
+
   return (
-    <NetContainer>
+    <NetContainer style={{ height: `${netHeight}px` }}>
       <NetTop />
-      {[...Array(10)].map((_, index) => (
-        <NetMesh key={index} style={{ top: `${index * 10}%` }} />
+      {[...Array(meshCount)].map((_, index) => (
+        <NetMesh key={index} style={{ top: `${(index / meshCount) * 100}%` }} />
       ))}
       <NetPole />
+      {/* Interactive Element: Adjustable Height */}
+      <input type="range" min="100" max="200" value={netHeight} onChange={handleHeightChange} />
     </NetContainer>
   );
 };
