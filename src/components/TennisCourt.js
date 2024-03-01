@@ -84,8 +84,9 @@ const TennisCourt = ({ playerAScore, playerBScore }) => {
       <CourtLines />
       <TennisBall style={{ left: ballPosition.x, top: ballPosition.y }} />
       <Scoreboard playerAScore={playerAScore} playerBScore={playerBScore} />
-      <Player name="Player A" position="left" />
-      <Player name="Player B" position="right" />
+      <Player name="Player A" position="left" bgColor="blue" textColor="white" borderColor="red" />
+<Player name="Player B" position="right" bgColor="green" textColor="black" borderColor="yellow" />
+
       <Net />
       <LeftRacket position={50} topPosition={120} width={10} height={60} />
       <RightRacket position={50} topPosition={120} width={10} height={60} />
