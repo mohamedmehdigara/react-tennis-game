@@ -29,7 +29,7 @@ const Player = ({ name, position, bgColor, textColor, borderColor, top, onClick 
       bgColor={bgColor}
       textColor={textColor}
       borderColor={borderColor}
-      style={{ [position]: '10px', top: `${top}px` }}
+      style={{ left: position === 'left' ? '10px' : 'calc(100% - 30px)', top: `${top}px` }}
       onClick={onClick} // Handle click event
     >
       {name}

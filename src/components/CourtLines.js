@@ -1,4 +1,3 @@
-// CourtLines.js
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
@@ -8,12 +7,15 @@ const CourtLinesContainer = styled.div`
   height: 100%;
 `;
 
-const baselineAnimation = keyframes`
-  from {
-    transform: scaleX(0);
+const bounceAnimation = keyframes`
+  0% {
+    transform: translateY(0);
   }
-  to {
-    transform: scaleX(1);
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
   }
 `;
 
@@ -30,7 +32,7 @@ const Line = styled.div`
   ${({ animated }) =>
     animated &&
     css`
-      animation: ${baselineAnimation} 0.5s ease forwards;
+      animation: ${bounceAnimation} 0.5s ease infinite;
     `}
 `;
 

@@ -8,6 +8,7 @@ import GameControls from './GameControls';
 import LeftRacket from './LeftRacket';
 import RightRacket from './RightRacket';
 
+// Define bounce animation keyframes
 const bounceAnimation = keyframes`
   0% {
     transform: translateY(0);
@@ -20,6 +21,7 @@ const bounceAnimation = keyframes`
   }
 `;
 
+// Styled components
 const CourtContainer = styled.div`
   position: relative;
   width: 600px;
@@ -36,80 +38,88 @@ const TennisBall = styled.div`
   animation: ${bounceAnimation} 0.5s ease infinite;
 `;
 
+// Main component
 const TennisCourt = () => {
+  // State variables
   const [ballPosition, setBallPosition] = useState({ x: 300, y: 150 });
-  const [ballSpeed, setBallSpeed] = useState({ dx: 1, dy: 1 });
+  const [ballSpeed, setBallSpeed] = useState({ dx: -1, dy: -1 });
   const [playerAScore, setPlayerAScore] = useState(0);
   const [playerBScore, setPlayerBScore] = useState(0);
   const [leftRacketY, setLeftRacketY] = useState(120);
   const [rightRacketY, setRightRacketY] = useState(120);
 
+  // Function to move the ball and handle collisions
   useEffect(() => {
     const moveBall = () => {
-      // Get current ball position
       let newX = ballPosition.x + ballSpeed.dx;
       let newY = ballPosition.y + ballSpeed.dy;
-  
-      // Check collision with top and bottom boundaries
+
+      // Collision detection with top and bottom boundaries
       if (newY <= 0 || newY >= 280) {
         setBallSpeed(prevSpeed => ({ ...prevSpeed, dy: -prevSpeed.dy }));
-        newY = Math.max(0, Math.min(newY, 280)); // Ensure the ball stays within boundaries
+        newY = Math.max(0, Math.min(newY, 280)); // Keep the ball within boundaries
       }
 
-      // Check collision with left racket
+      // Collision detection with left racket
       if (newX <= 60 && newY >= leftRacketY && newY <= leftRacketY + 60) {
         setBallSpeed(prevSpeed => ({ dx: -prevSpeed.dx, dy: prevSpeed.dy }));
         newX = Math.max(60, newX); // Ensure the ball stays outside the racket
       }
 
-      // Check collision with right racket
+      // Collision detection with right racket
       if (newX >= 540 && newY >= rightRacketY && newY <= rightRacketY + 60) {
         setBallSpeed(prevSpeed => ({ dx: -prevSpeed.dx, dy: prevSpeed.dy }));
         newX = Math.min(540, newX); // Ensure the ball stays outside the racket
       }
-  
-      // Check if ball goes out of bounds on the left or right side
+
+      // Scoring logic
       if (newX <= 0) {
         setPlayerBScore(prevScore => prevScore + 1);
-        setBallPosition({ x: 300, y: 150 }); // Reset ball position
-        setBallSpeed({ dx: -1, dy: 1 }); // Serve from player B
+        resetBall();
       } else if (newX >= 600) {
         setPlayerAScore(prevScore => prevScore + 1);
-        setBallPosition({ x: 300, y: 150 }); // Reset ball position
-        setBallSpeed({ dx: 1, dy: 1 }); // Serve from player A
+        resetBall();
       } else {
-        // Update ball position
         setBallPosition({ x: newX, y: newY });
       }
     };
-  
-    const interval = setInterval(moveBall, 10); // Move ball every 10 milliseconds
-  
-    return () => clearInterval(interval); // Cleanup on component unmount
+
+    // Move the ball every 10 milliseconds
+    const interval = setInterval(moveBall, 10);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
   }, [ballPosition, ballSpeed, leftRacketY, rightRacketY]);
 
+  // Function to reset the ball position
+  const resetBall = () => {
+    setBallPosition({ x: 300, y: 150 });
+    setBallSpeed({ dx: -1, dy: -1 }); // Reset ball direction
+  };
+
+  // Function to handle player movement using keyboard input
   const handleKeyDown = (e) => {
-    // Player A controls
-    if (e.key === 'w') {
+    // Player A controls (Left racket)
+    if (e.key === 'ArrowLeft') {
       setLeftRacketY(prevY => Math.max(0, prevY - 5)); // Move up
-    } else if (e.key === 's') {
+    } else if (e.key === 'ArrowRight') {
       setLeftRacketY(prevY => Math.min(240, prevY + 5)); // Move down
     }
-    // Player B controls
-    if (e.key === 'ArrowUp') {
+    // Player B controls (Right racket)
+    if (e.key === 'w') {
       setRightRacketY(prevY => Math.max(0, prevY - 5)); // Move up
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 's') {
       setRightRacketY(prevY => Math.min(240, prevY + 5)); // Move down
     }
   };
 
+  // Add event listener for keyboard input
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Render the component
   return (
     <CourtContainer>
       <CourtLines />
@@ -121,10 +131,10 @@ const TennisCourt = () => {
       <LeftRacket topPosition={leftRacketY} />
       <RightRacket topPosition={rightRacketY} />
       <GameControls 
-        onStart={() => setBallSpeed({ dx: 1, dy: 1 })} 
-        onPause={() => setBallSpeed({ dx: 0, dy: 0 })} 
+        onStart={() => setBallSpeed({ dx: -1, dy: -1 })} // Serve from left player
+        onPause={() => setBallSpeed({ dx: 0, dy: 0 })} // Pause the game
         onRestart={() => {
-          setBallPosition({ x: 300, y: 150 });
+          resetBall();
           setPlayerAScore(0);
           setPlayerBScore(0);
         }}
