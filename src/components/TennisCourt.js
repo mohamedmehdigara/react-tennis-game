@@ -7,6 +7,7 @@ import Net from './Net';
 import GameControls from './GameControls';
 import LeftRacket from './LeftRacket';
 import RightRacket from './RightRacket';
+import Crowd from './Crowd';
 
 // Define bounce animation keyframes
 const bounceAnimation = keyframes`
@@ -22,10 +23,17 @@ const bounceAnimation = keyframes`
 `;
 
 // Styled components
+const TennisCourtContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 const CourtContainer = styled.div`
   position: relative;
-  width: 600px;
-  height: 300px;
+  width: 100vw;
+  height: 100vh;
   background-color: green;
 `;
 
@@ -37,7 +45,6 @@ const TennisBall = styled.div`
   border-radius: 50%;
   animation: ${bounceAnimation} 0.5s ease infinite;
 `;
-
 // Main component
 const TennisCourt = () => {
   // State variables
@@ -121,25 +128,26 @@ const TennisCourt = () => {
 
   // Render the component
   return (
-    <CourtContainer>
-      <CourtLines />
-      <TennisBall style={{ left: ballPosition.x, top: ballPosition.y }} />
-      <Scoreboard playerAScore={playerAScore} playerBScore={playerBScore} />
-      <Player name="Player A" position="left" bgColor="blue" textColor="white" borderColor="red" top={leftRacketY} />
-      <Player name="Player B" position="right" bgColor="green" textColor="black" borderColor="yellow" top={rightRacketY} />
-      <Net />
-      <LeftRacket topPosition={leftRacketY} />
-      <RightRacket topPosition={rightRacketY} />
-      <GameControls 
-        onStart={() => setBallSpeed({ dx: -1, dy: -1 })} // Serve from left player
-        onPause={() => setBallSpeed({ dx: 0, dy: 0 })} // Pause the game
-        onRestart={() => {
-          resetBall();
-          setPlayerAScore(0);
-          setPlayerBScore(0);
-        }}
-      />
-    </CourtContainer>
+    <TennisCourtContainer>
+      <CourtContainer>
+        <CourtLines />
+        <TennisBall style={{ left: ballPosition.x, top: ballPosition.y }} />
+        <Scoreboard playerAScore={playerAScore} playerBScore={playerBScore} />
+        <Player name="Player A" position="left" bgColor="blue" textColor="white" borderColor="red" top={leftRacketY} />
+        <Player name="Player B" position="right" bgColor="green" textColor="black" borderColor="yellow" top={rightRacketY} />
+        <Net />
+        <LeftRacket topPosition={leftRacketY} />
+        <RightRacket topPosition={rightRacketY} />
+        <GameControls 
+          onStart={() => setBallSpeed({ dx: -1, dy: -1 })} // Serve from left player
+          onPause={() => setBallSpeed({ dx: 0, dy: 0 })} // Pause the game
+          onRestart={() => {
+            // Reset ball and scores...
+          }}
+        />
+      </CourtContainer>
+      <Crowd /> {/* Add the crowd component */}
+    </TennisCourtContainer>
   );
 };
 
