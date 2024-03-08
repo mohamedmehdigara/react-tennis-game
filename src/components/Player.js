@@ -1,38 +1,32 @@
+// Player.js
 import React from 'react';
 import styled from 'styled-components';
 
 const PlayerContainer = styled.div`
   position: absolute;
-  width: 20px;
-  height: 80px;
-  /* Apply customizable background color */
-  background-color: ${props => props.bgColor || 'white'};
-  /* Additional styling for visual enhancements */
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 14px;
-  /* Apply customizable text color */
-  color: ${props => props.textColor || 'black'};
-  /* Apply customizable border color */
-  border: 2px solid ${props => props.borderColor || 'black'};
-  border-radius: 5px;
-  /* Apply transition for smooth position changes */
-  transition: top 0.5s ease-in-out;
-  /* Add cursor pointer for interaction */
-  cursor: pointer;
+  ${({ position }) => (position === 'left' ? 'left: 20px;' : 'right: 20px;')}
+  top: ${({ top }) => top}px;
 `;
 
-const Player = ({ name, position, bgColor, textColor, borderColor, top, onClick }) => {
+const PlayerName = styled.div`
+  font-size: 18px;
+  margin-right: 5px;
+`;
+
+const RacketIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 50%;
+`;
+
+const Player = ({ name, position, top }) => {
   return (
-    <PlayerContainer
-      bgColor={bgColor}
-      textColor={textColor}
-      borderColor={borderColor}
-      style={{ left: position === 'left' ? '10px' : 'calc(100% - 30px)', top: `${top}px` }}
-      onClick={onClick} // Handle click event
-    >
-      {name}
+    <PlayerContainer position={position} top={top}>
+      <PlayerName>{name}</PlayerName>
+      <RacketIcon />
     </PlayerContainer>
   );
 };

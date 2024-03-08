@@ -1,3 +1,4 @@
+// GameControls.js
 import React from 'react';
 import styled from 'styled-components';
 
@@ -5,11 +6,6 @@ const ControlsContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
 `;
 
 const Button = styled.button`
@@ -27,14 +23,14 @@ const Button = styled.button`
   }
 `;
 
-const GameControls = ({ onStart, onPause, onRestart, onIncreaseSpeed, onDecreaseSpeed }) => {
+const GameControls = () => {
   return (
     <ControlsContainer>
-      <Button onClick={onStart}>Start</Button>
-      <Button onClick={onPause}>Pause</Button>
-      <Button onClick={onRestart}>Restart</Button>
-      <Button onClick={onIncreaseSpeed}>Increase Speed</Button>
-      <Button onClick={onDecreaseSpeed}>Decrease Speed</Button>
+      <Button>Start</Button>
+      <Button>Pause</Button>
+      <Button>Restart</Button>
+      <Button>Increase Speed</Button>
+      <Button>Decrease Speed</Button>
     </ControlsContainer>
   );
 };

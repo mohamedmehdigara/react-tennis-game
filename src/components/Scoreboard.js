@@ -3,37 +3,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ScoreboardContainer = styled.div`
-  background-color: #f4f4f4;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const ScoreRow = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  width: 200px;
 `;
 
-const ScoreLabel = styled.div`
+const Score = styled.div`
+  font-size: 24px;
   font-weight: bold;
 `;
 
-const ScoreValue = styled.div`
-  color: #333;
-`;
-
-const Scoreboard = ({ playerAScore, playerBScore, playerAName, playerBName }) => {
+const Scoreboard = ({ playerAScore, playerBScore }) => {
   return (
     <ScoreboardContainer>
-      <ScoreRow>
-        <ScoreLabel>{playerAName} Score:</ScoreLabel>
-        <ScoreValue>{playerAScore}</ScoreValue>
-      </ScoreRow>
-      <ScoreRow>
-        <ScoreLabel>{playerBName} Score:</ScoreLabel>
-        <ScoreValue>{playerBScore}</ScoreValue>
-      </ScoreRow>
+      <Score>Player A: {playerAScore}</Score>
+      <Score>Player B: {playerBScore}</Score>
     </ScoreboardContainer>
   );
 };
