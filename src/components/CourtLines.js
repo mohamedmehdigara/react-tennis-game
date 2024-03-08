@@ -1,3 +1,4 @@
+// CourtLines.js
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
@@ -7,7 +8,7 @@ const CourtLinesContainer = styled.div`
   height: 100%;
 `;
 
-const bounceAnimation = keyframes`
+const bounceAnimation = css`
   0% {
     transform: translateY(0);
   }
@@ -88,6 +89,43 @@ const Net = styled(Line)`
   height: 200px;
 `;
 
+// New lines to represent additional markings on the tennis court
+const ServiceBoxLine = styled(Line)`
+  position: absolute;
+  left: calc(50% - 22ft);
+  bottom: 50%;
+  width: 44ft;
+  height: 2px;
+`;
+
+const SinglesSidelineExtended = styled(Line)`
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 2px;
+`;
+
+const DoublesSidelineExtended = styled(Line)`
+  top: 0;
+  left: calc(50% - 21ft);
+  height: 100%;
+  width: 2px;
+`;
+
+const AlleyLine = styled(Line)`
+  top: 0;
+  left: calc(50% - 33ft);
+  height: 100%;
+  width: 2px;
+`;
+
+const TLine = styled(Line)`
+  top: 0;
+  left: calc(50% - 1px);
+  height: 20px;
+  width: 2px;
+`;
+
 const CourtLines = ({ courtColor, animated }) => {
   return (
     <CourtLinesContainer>
@@ -98,6 +136,13 @@ const CourtLines = ({ courtColor, animated }) => {
       <DoublesSideline color={courtColor} animated={animated} />
       <CenterServiceLine color={courtColor} animated={animated} />
       <Net color={courtColor} animated={animated} />
+
+      {/* Additional lines */}
+      <ServiceBoxLine color={courtColor} animated={animated} />
+      <SinglesSidelineExtended color={courtColor} animated={animated} />
+      <DoublesSidelineExtended color={courtColor} animated={animated} />
+      <AlleyLine color={courtColor} animated={animated} />
+      <TLine color={courtColor} animated={animated} />
     </CourtLinesContainer>
   );
 };

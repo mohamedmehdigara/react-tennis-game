@@ -1,7 +1,7 @@
-// Player.js
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+// Styled components for the player container, name, and racket icon
 const PlayerContainer = styled.div`
   position: absolute;
   display: flex;
@@ -18,15 +18,18 @@ const PlayerName = styled.div`
 const RacketIcon = styled.div`
   width: 20px;
   height: 20px;
-  background-color: black;
   border-radius: 50%;
+  ${({ racketColor }) => css`
+    background-color: ${racketColor || 'black'};
+    border: 2px solid ${racketColor || 'black'};
+  `}
 `;
 
-const Player = ({ name, position, top }) => {
+const Player = ({ name, position, top, racketColor }) => {
   return (
     <PlayerContainer position={position} top={top}>
       <PlayerName>{name}</PlayerName>
-      <RacketIcon />
+      <RacketIcon racketColor={racketColor} />
     </PlayerContainer>
   );
 };

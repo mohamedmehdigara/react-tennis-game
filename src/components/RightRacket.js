@@ -1,7 +1,7 @@
-// RightRacket.js
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+// Styled components for the racket container and frame
 const RacketContainer = styled.div`
   position: absolute;
   right: 0;
@@ -16,10 +16,11 @@ const RacketFrame = styled.div`
   background: #f1f1f1;
 `;
 
-const RightRacket = ({ topPosition }) => {
+// Improved RightRacket component with dynamic styling
+const RightRacket = ({ topPosition, racketColor }) => {
   return (
     <RacketContainer topPosition={topPosition}>
-      <RacketFrame />
+      <RacketFrame style={{ backgroundColor: racketColor }} />
     </RacketContainer>
   );
 };
