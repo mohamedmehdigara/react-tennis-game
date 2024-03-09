@@ -7,6 +7,9 @@ const NetContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const NetMesh = styled.div`
@@ -34,14 +37,13 @@ const NetMesh = styled.div`
   }
 `;
 
-const Net = () => {
-  return (
-    <NetContainer>
-      {[...Array(10)].map((_, index) => (
-        <NetMesh key={index} />
-      ))}
-    </NetContainer>
-  );
+// Function to generate net meshes with customizable count
+const generateNetMeshes = (count) => {
+  return Array.from({ length: count }, (_, index) => <NetMesh key={index} />);
+};
+
+const Net = ({ meshCount = 10 }) => {
+  return <NetContainer>{generateNetMeshes(meshCount)}</NetContainer>;
 };
 
 export default Net;

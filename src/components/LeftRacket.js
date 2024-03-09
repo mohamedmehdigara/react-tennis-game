@@ -57,6 +57,8 @@ const LeftRacket = ({ topPosition, moveStep, onHit }) => {
 
   const hitBall = () => {
     const ball = document.getElementById('tennis-ball');
+    if (!ball) return; // Ensure the ball element exists
+
     const ballRect = ball.getBoundingClientRect();
     const racketRect = containerRef.current.getBoundingClientRect();
 

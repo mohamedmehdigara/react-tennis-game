@@ -18,18 +18,10 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   &:hover {
     background-color: #45a049;
   }
-`;
-
-// Icon styled component to customize icons
-const Icon = styled.span`
-  margin-right: 5px;
 `;
 
 const GameControls = ({ onStart, onPause, onRestart, onIncreaseSpeed, onDecreaseSpeed }) => {
@@ -37,23 +29,23 @@ const GameControls = ({ onStart, onPause, onRestart, onIncreaseSpeed, onDecrease
     <ControlsContainer>
       {/* Start Button */}
       <Button onClick={onStart} title="Start">
-        <Icon><FaPlay /></Icon> Start
+        <FaPlay /> Start
       </Button>
       {/* Pause Button */}
       <Button onClick={onPause} title="Pause">
-        <Icon><FaPause /></Icon> Pause
+        <FaPause /> Pause
       </Button>
       {/* Restart Button */}
       <Button onClick={onRestart} title="Restart">
-        <Icon><FaRedo /></Icon> Restart
+        <FaRedo /> Restart
       </Button>
       {/* Increase Speed Button */}
       <Button onClick={onIncreaseSpeed} title="Increase Speed">
-        <Icon><FaArrowUp /></Icon> Increase Speed
+        <FaArrowUp /> Increase Speed
       </Button>
       {/* Decrease Speed Button */}
       <Button onClick={onDecreaseSpeed} title="Decrease Speed">
-        <Icon><FaArrowDown /></Icon> Decrease Speed
+        <FaArrowDown /> Decrease Speed
       </Button>
     </ControlsContainer>
   );
