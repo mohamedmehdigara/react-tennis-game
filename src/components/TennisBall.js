@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 // Keyframe animation for bouncing ball
-const bounceAnimation = css`
+const bounceAnimation = keyframes`
   0% {
     transform: translateY(0);
   }
@@ -19,29 +19,28 @@ const StyledTennisBall = styled.div`
   position: absolute;
   width: 20px;
   height: 20px;
-  background-color: ${({ color }) => color || 'white'}; // Dynamically set ball color
+  background-color: ${({ color }) => color || 'yellow'}; // Changed default color to yellow for visibility
   border-radius: 50%;
-  animation: ${({ animated }) => animated && `${bounceAnimation} 0.5s ease infinite`}; // Dynamic animation
+  animation: ${({ animated }) => animated ? css`${bounceAnimation} 0.5s ease infinite` : 'none'};
+  left: ${({ position }) => position.x}px;
+  top: ${({ position }) => position.y}px;
 `;
 
-// Improved TennisBall component with dynamic animation and position
-const TennisBall = ({ initialPosition, color = 'white', animated = true }) => {
+const TennisBall = ({ initialPosition, color = 'yellow', animated = true }) => {
   const [position, setPosition] = useState(initialPosition);
 
   useEffect(() => {
-    // Add game logic for updating ball position and handling collisions
     const interval = setInterval(() => {
-      // Example: Update ball position based on velocity or game state
       setPosition(prevPosition => ({
-        x: prevPosition.x + 1, // Example: Update x-coordinate
-        y: prevPosition.y + 1, // Example: Update y-coordinate
+        x: prevPosition.x + 1,
+        y: prevPosition.y - 1, // Adjusted for a more realistic bounce
       }));
-    }, 10);
+    }, 50); // Slowed down for visibility
 
     return () => clearInterval(interval);
   }, []);
 
-  return <StyledTennisBall style={{ left: position.x, top: position.y }} color={color} animated={animated} />;
+  return <StyledTennisBall position={position} color={color} animated={animated} />;
 };
 
 export default TennisBall;
