@@ -1,148 +1,78 @@
-// CourtLines.js
 import React from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 
+// Assuming a full court width of 100%, calculate line positions and widths based on standard tennis court dimensions
 const CourtLinesContainer = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
 `;
 
-const bounceAnimation = css`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-30px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
+// General line styling with hover effect removed for non-interactive elements
 const Line = styled.div`
   position: absolute;
   background-color: ${({ color }) => color || 'white'};
-  transition: background-color 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: lightgray;
-  }
-
-  ${({ animated }) =>
-    animated &&
-    css`
-      animation: ${bounceAnimation} 0.5s ease infinite;
-    `}
+  ${({ thickness }) => thickness && `height: ${thickness};`}
 `;
 
-const Baseline = styled(Line)`
-  bottom: 0;
-  left: 0;
+// Base component for vertical lines (center, singles, doubles sidelines)
+const VerticalLine = styled(Line)`
+  width: ${({ thickness }) => thickness || '2px'};
+  height: 100%;
+`;
+
+// Base component for horizontal lines (baseline, service line)
+const HorizontalLine = styled(Line)`
   width: 100%;
-  height: 2px;
+  height: ${({ thickness }) => thickness || '2px'};
 `;
 
-const ServiceLine = styled(Line)`
-  bottom: 50%;
-  left: 0;
-  width: 100%;
-  height: 2px;
+const Baseline = styled(HorizontalLine)``;
+
+const ServiceLine = styled(HorizontalLine)`
+  bottom: 25%; /* Adjust according to actual court proportions */
 `;
 
-const CenterLine = styled(Line)`
-  top: 0;
+const CenterLine = styled(VerticalLine)`
   left: 50%;
   transform: translateX(-50%);
-  width: 2px;
-  height: 100%;
 `;
 
-const SinglesSideline = styled(Line)`
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 2px;
+const SinglesSideline = styled(VerticalLine)`
+  left: ${({ isRight }) => (isRight ? 'calc(100% - 2px)' : '0')};
 `;
 
-const DoublesSideline = styled(Line)`
-  top: 0;
-  left: calc(50% - 11ft);
-  height: 100%;
-  width: 2px;
+const DoublesSideline = styled(VerticalLine)`
+  left: ${({ isRight }) => (isRight ? 'calc(100% - 4.5%)' : '4.5%')}; /* Adjust sideline spacing */
 `;
 
-const CenterServiceLine = styled(Line)`
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 40px;
-`;
-
-const Net = styled(Line)`
+const CenterServiceLine = styled(HorizontalLine)`
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 2px;
-  height: 200px;
-`;
-
-// New lines to represent additional markings on the tennis court
-const ServiceBoxLine = styled(Line)`
-  position: absolute;
-  left: calc(50% - 22ft);
-  bottom: 50%;
-  width: 44ft;
   height: 2px;
+  width: 50%;
+  left: 25%; /* Adjust to center the line */
 `;
 
-const SinglesSidelineExtended = styled(Line)`
+const Net = styled(VerticalLine)`
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: ${({ thickness }) => thickness || '2px'};
+  width: 100%;
 `;
 
-const DoublesSidelineExtended = styled(Line)`
-  top: 0;
-  left: calc(50% - 21ft);
-  height: 100%;
-  width: 2px;
-`;
-
-const AlleyLine = styled(Line)`
-  top: 0;
-  left: calc(50% - 33ft);
-  height: 100%;
-  width: 2px;
-`;
-
-const TLine = styled(Line)`
-  top: 0;
-  left: calc(50% - 1px);
-  height: 20px;
-  width: 2px;
-`;
-
-const CourtLines = ({ courtColor, animated }) => {
+const CourtLines = ({ courtColor = 'white', lineThickness = '2px' }) => {
   return (
     <CourtLinesContainer>
-      <Baseline color={courtColor} animated={animated} />
-      <ServiceLine color={courtColor} animated={animated} />
-      <CenterLine color={courtColor} animated={animated} />
-      <SinglesSideline color={courtColor} animated={animated} />
-      <DoublesSideline color={courtColor} animated={animated} />
-      <CenterServiceLine color={courtColor} animated={animated} />
-      <Net color={courtColor} animated={animated} />
-
-      {/* Additional lines */}
-      <ServiceBoxLine color={courtColor} animated={animated} />
-      <SinglesSidelineExtended color={courtColor} animated={animated} />
-      <DoublesSidelineExtended color={courtColor} animated={animated} />
-      <AlleyLine color={courtColor} animated={animated} />
-      <TLine color={courtColor} animated={animated} />
+      <Baseline color={courtColor} thickness={lineThickness} />
+      <ServiceLine color={courtColor} thickness={lineThickness} />
+      <CenterLine color={courtColor} thickness={lineThickness} />
+      <SinglesSideline color={courtColor} thickness={lineThickness} />
+      <SinglesSideline color={courtColor} thickness={lineThickness} isRight />
+      <DoublesSideline color={courtColor} thickness={lineThickness} />
+      <DoublesSideline color={courtColor} thickness={lineThickness} isRight />
+      <CenterServiceLine color={courtColor} thickness={lineThickness} />
+      <Net color={courtColor} thickness="5px" /> {/* Net thickness visually distinct */}
     </CourtLinesContainer>
   );
 };

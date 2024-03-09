@@ -17,23 +17,41 @@ const CrowdContainer = styled.div`
   width: 100%;
   height: 20px;
   background: #666;
+  overflow: hidden; // Prevents overflow during animation
 `;
 
 const Spectator = styled.div`
   display: inline-block;
   width: 5px;
   height: 20px;
-  background: #fff;
+  background: ${({ color }) => color};
   margin: 0 2px;
-  animation: ${waveAnimation} 1s ease-in-out infinite;
+  animation: ${waveAnimation} ${({ duration }) => duration}s ease-in-out infinite;
+  animation-delay: ${({ delay }) => delay}s;
 `;
 
-const Crowd = () => (
-  <CrowdContainer>
-    {Array.from({ length: 100 }).map((_, index) => (
-      <Spectator key={index} style={{ animationDelay: `${Math.random() * 2}s` }} />
-    ))}
-  </CrowdContainer>
-);
+// Function to generate a random color for the spectators
+const getRandomColor = () => {
+  const colors = ['#fff', '#eee', '#ddd']; // Array of possible colors
+  return colors[Math.floor(Math.random() * colors.length)];
+};
+
+const Crowd = () => {
+  const spectatorCount = window.innerWidth / 7.5; // Example responsive calculation
+
+  return (
+    <CrowdContainer aria-label="animated crowd">
+      {Array.from({ length: spectatorCount }).map((_, index) => (
+        <Spectator
+          key={index}
+          color={getRandomColor()}
+          duration={0.75 + Math.random() * 0.5} // Varied duration between 0.75s and 1.25s
+          delay={Math.random() * 2} // Random delay up to 2s
+          aria-hidden="true" // Hide individual spectators from screen readers for accessibility
+        />
+      ))}
+    </CrowdContainer>
+  );
+};
 
 export default Crowd;

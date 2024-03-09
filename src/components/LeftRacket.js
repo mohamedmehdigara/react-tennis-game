@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-// Styled components for the racket container, frame, handle grip, and strings
 const RacketContainer = styled.div`
   position: absolute;
-  left: 0;
+  left: ${({ leftPosition }) => leftPosition}px;
   top: ${({ topPosition }) => topPosition}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const RacketFrame = styled.div`
@@ -22,36 +24,59 @@ const HandleGrip = styled.div`
   height: 20px;
   background: #666;
   position: absolute;
-  top: 50%;
-  left: -6px;
-  transform: translateY(-50%);
-  z-index: 1;
+  bottom: -10px;
 `;
 
-const String = styled.div`
-  position: absolute;
-  top: ${({ top }) => top}px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: #c0c0c0;
-`;
+const LeftRacket = ({ topPosition, moveStep, onHit }) => {
+  const [position, setPosition] = useState(topPosition);
+  const containerRef = useRef(null);
 
-const LeftRacket = ({ topPosition }) => {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowUp' || event.key === 'w') {
+        moveRacket(-moveStep);
+      } else if (event.key === 'ArrowDown' || event.key === 's') {
+        moveRacket(moveStep);
+      } else if (event.key === 'a' || event.key === 'A') {
+        hitBall();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [moveStep]);
+
+  const moveRacket = (step) => {
+    const containerHeight = containerRef.current.clientHeight;
+    const newPosition = Math.max(0, Math.min(position + step, containerHeight - 60));
+    setPosition(newPosition);
+  };
+
+  const hitBall = () => {
+    const ball = document.getElementById('tennis-ball');
+    const ballRect = ball.getBoundingClientRect();
+    const racketRect = containerRef.current.getBoundingClientRect();
+
+    if (
+      ballRect.left <= racketRect.right &&
+      ballRect.right >= racketRect.left &&
+      ballRect.top <= racketRect.bottom &&
+      ballRect.bottom >= racketRect.top
+    ) {
+      onHit(); // Notify parent component that the ball was hit
+    }
+  };
+
   return (
-    <RacketContainer topPosition={topPosition}>
+    <RacketContainer topPosition={position} ref={containerRef}>
       <RacketFrame>
-        {/* Handle Grip */}
         <HandleGrip />
-        {/* Strings */}
-        <String top={10} />
-        <String top={30} />
-        <String top={50} />
       </RacketFrame>
     </RacketContainer>
   );
 };
 
 export default LeftRacket;
-
