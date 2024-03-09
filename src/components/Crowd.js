@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
+// Keyframe animation for spectator wave effect
 const waveAnimation = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -10,6 +11,7 @@ const waveAnimation = keyframes`
   }
 `;
 
+// Container for the crowd
 const CrowdContainer = styled.div`
   position: absolute;
   bottom: 0;
@@ -20,6 +22,7 @@ const CrowdContainer = styled.div`
   overflow: hidden; // Prevents overflow during animation
 `;
 
+// Spectator styled component
 const Spectator = styled.div`
   display: inline-block;
   width: 5px;
@@ -32,12 +35,12 @@ const Spectator = styled.div`
 
 // Function to generate a random color for the spectators
 const getRandomColor = () => {
-  const colors = ['#fff', '#eee', '#ddd']; // Array of possible colors
+  const colors = ['#fff', '#eee', '#ddd', '#ccc', '#bbb']; // Add more color options for variety
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
 const Crowd = () => {
-  const spectatorCount = window.innerWidth / 7.5; // Example responsive calculation
+  const spectatorCount = Math.floor(window.innerWidth / 7.5); // Calculate spectator count based on window width
 
   return (
     <CrowdContainer aria-label="animated crowd">
