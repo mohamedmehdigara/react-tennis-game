@@ -25,11 +25,20 @@ const RacketIcon = styled.div`
   `}
 `;
 
-const Player = ({ name, position, top, racketColor }) => {
+const TennisBall = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: ${({ ballColor }) => ballColor || 'yellow'}; // Customize ball color
+  margin-left: 5px; // Add some spacing between the racket and ball
+`;
+
+const Player = ({ name, position, top, racketColor, ballColor }) => {
   return (
     <PlayerContainer position={position} top={top}>
       <PlayerName>{name}</PlayerName>
       <RacketIcon racketColor={racketColor} />
+      <TennisBall ballColor={ballColor} />
     </PlayerContainer>
   );
 };

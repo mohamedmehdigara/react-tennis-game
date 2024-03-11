@@ -20,6 +20,10 @@ const CourtContainer = styled.div`
 const TennisCourt = () => {
   const initialBallPosition = { x: 50, y: 50 }; // Adjusted for a starting position
 
+  const handleHit = () => {
+    // Handle hit logic here
+  };
+
   return (
     <CourtContainer>
       <Crowd />
@@ -30,7 +34,7 @@ const TennisCourt = () => {
       <Player name="Player B" position="right" />
       <Net />
       <LeftRacket />
-      <RightRacket />
+      <RightRacket onHit={handleHit}/>
       <GameControls />
     </CourtContainer>
   );
