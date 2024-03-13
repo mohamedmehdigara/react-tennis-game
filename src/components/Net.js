@@ -14,9 +14,9 @@ const NetContainer = styled.div`
 
 const NetMesh = styled.div`
   width: 2px;
-  height: 20px;
-  background-color: #ffffff;
-  margin-bottom: 5px;
+  height: ${({ meshHeight }) => meshHeight || '20px'};
+  background-color: ${({ meshColor }) => meshColor || '#ffffff'};
+  margin-bottom: ${({ meshSpacing }) => meshSpacing || '5px'};
   position: relative;
 
   /* Add net texture */
@@ -38,12 +38,12 @@ const NetMesh = styled.div`
 `;
 
 // Function to generate net meshes with customizable count
-const generateNetMeshes = (count) => {
-  return Array.from({ length: count }, (_, index) => <NetMesh key={index} />);
+const generateNetMeshes = ({ count, ...props }) => {
+  return Array.from({ length: count }, (_, index) => <NetMesh key={index} {...props} />);
 };
 
-const Net = ({ meshCount = 10 }) => {
-  return <NetContainer>{generateNetMeshes(meshCount)}</NetContainer>;
+const Net = ({ meshCount = 10, meshHeight, meshColor, meshSpacing }) => {
+  return <NetContainer>{generateNetMeshes({ count: meshCount, meshHeight, meshColor, meshSpacing })}</NetContainer>;
 };
 
 export default Net;

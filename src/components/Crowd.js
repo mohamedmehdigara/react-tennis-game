@@ -40,7 +40,8 @@ const getRandomColor = () => {
 };
 
 const Crowd = () => {
-  const spectatorCount = Math.floor(window.innerWidth / 7.5); // Calculate spectator count based on window width
+  // Calculate spectator count based on window width with a minimum of 50 spectators
+  const spectatorCount = Math.max(Math.floor(window.innerWidth / 7.5), 50);
 
   return (
     <CrowdContainer aria-label="animated crowd">

@@ -49,6 +49,20 @@ const LeftRacket = ({ topPosition, moveStep, onHit }) => {
     };
   }, [moveStep]);
 
+  useEffect(() => {
+    // Function to handle window resizing and updating racket position if necessary
+    const handleResize = () => {
+      const containerHeight = containerRef.current.clientHeight;
+      setPosition(Math.min(position, containerHeight - 60));
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [position]);
+
   const moveRacket = (step) => {
     const containerHeight = containerRef.current.clientHeight;
     const newPosition = Math.max(0, Math.min(position + step, containerHeight - 60));

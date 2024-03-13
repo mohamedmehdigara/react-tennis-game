@@ -24,28 +24,49 @@ const Button = styled.button`
   }
 `;
 
+// Wrapper component for icon and text to ensure proper alignment
+const IconTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const GameControls = ({ onStart, onPause, onRestart, onIncreaseSpeed, onDecreaseSpeed }) => {
   return (
     <ControlsContainer>
       {/* Start Button */}
       <Button onClick={onStart} title="Start">
-        <FaPlay /> Start
+        <IconTextWrapper>
+          <FaPlay />
+          <span>Start</span>
+        </IconTextWrapper>
       </Button>
       {/* Pause Button */}
       <Button onClick={onPause} title="Pause">
-        <FaPause /> Pause
+        <IconTextWrapper>
+          <FaPause />
+          <span>Pause</span>
+        </IconTextWrapper>
       </Button>
       {/* Restart Button */}
       <Button onClick={onRestart} title="Restart">
-        <FaRedo /> Restart
+        <IconTextWrapper>
+          <FaRedo />
+          <span>Restart</span>
+        </IconTextWrapper>
       </Button>
       {/* Increase Speed Button */}
       <Button onClick={onIncreaseSpeed} title="Increase Speed">
-        <FaArrowUp /> Increase Speed
+        <IconTextWrapper>
+          <FaArrowUp />
+          <span>Increase Speed</span>
+        </IconTextWrapper>
       </Button>
       {/* Decrease Speed Button */}
       <Button onClick={onDecreaseSpeed} title="Decrease Speed">
-        <FaArrowDown /> Decrease Speed
+        <IconTextWrapper>
+          <FaArrowDown />
+          <span>Decrease Speed</span>
+        </IconTextWrapper>
       </Button>
     </ControlsContainer>
   );

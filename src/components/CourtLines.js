@@ -1,47 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Container for all court lines
 const CourtLinesContainer = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
 `;
 
+// Base styled component for lines
 const Line = styled.div`
   position: absolute;
   background-color: ${({ color }) => color || 'white'};
   ${({ thickness }) => thickness && `height: ${thickness};`}
 `;
 
+// Styled components for vertical lines
 const VerticalLine = styled(Line)`
   width: ${({ thickness }) => thickness || '2px'};
   height: 100%;
 `;
 
+// Styled components for horizontal lines
 const HorizontalLine = styled(Line)`
   width: 100%;
   height: ${({ thickness }) => thickness || '2px'};
 `;
 
+// Baseline
 const Baseline = styled(HorizontalLine)``;
 
+// Service line
 const ServiceLine = styled(HorizontalLine)`
   bottom: 25%;
 `;
 
+// Center line
 const CenterLine = styled(VerticalLine)`
   left: 50%;
   transform: translateX(-50%);
 `;
 
+// Singles sideline
 const SinglesSideline = styled(VerticalLine)`
   left: ${({ isRight }) => (isRight ? 'calc(100% - 2px)' : '0')};
 `;
 
+// Doubles sideline
 const DoublesSideline = styled(VerticalLine)`
   left: ${({ isRight }) => (isRight ? 'calc(100% - 4.5%)' : '4.5%')};
 `;
 
+// Center service line
 const CenterServiceLine = styled(HorizontalLine)`
   top: 50%;
   height: 2px;
@@ -49,6 +59,7 @@ const CenterServiceLine = styled(HorizontalLine)`
   left: 25%;
 `;
 
+// Net
 const Net = styled(VerticalLine)`
   top: 0;
   left: 50%;
@@ -70,6 +81,7 @@ const TLine = styled(VerticalLine)`
   left: calc(50% - 0.67%);
 `;
 
+// CourtLines component
 const CourtLines = ({ courtColor = 'white', lineThickness = '2px' }) => {
   return (
     <CourtLinesContainer>
