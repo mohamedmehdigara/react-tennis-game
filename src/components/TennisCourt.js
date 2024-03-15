@@ -10,7 +10,10 @@ import RightRacket from './RightRacket';
 import TennisBall from './TennisBall';
 import Crowd from './Crowd'; // Ensure this is correctly imported
 import Referee from './Referee'; // Import the Referee component
+import Timer from './Timer';
 
+// Import or define the missing functions
+import { startTimer, pauseTimer, resetGame, resetTimer, increaseBallSpeed, decreaseBallSpeed, increaseScore } from "./gameFunctions"
 
 const CourtContainer = styled.div`
   position: relative;
@@ -22,32 +25,39 @@ const TennisCourt = () => {
   const initialBallPosition = { x: 50, y: 50 }; // Adjusted for a starting position
   const [gamePaused, setGamePaused] = useState(true);
   const [score, setScore] = useState('0-0'); // Example initial score
-  const [gameStatus, setGameStatus] = useState('In Progress')
+  const [gameStatus, setGameStatus] = useState('In Progress');
 
   const handleStart = () => {
     setGamePaused(false);
     // Additional logic to start the game
+    startTimer(); // Start the game timer
   };
-
+  
   const handlePause = () => {
     setGamePaused(true);
     // Additional logic to pause the game
+    pauseTimer(); // Pause the game timer
   };
-
+  
   const handleRestart = () => {
     // Additional logic to restart the game
+    resetGame(); // Reset game state
+    resetTimer(); // Reset the game timer
   };
-
+  
   const handleIncreaseSpeed = () => {
     // Additional logic to increase the ball speed
+    increaseBallSpeed(); // Example function to increase ball speed
   };
-
+  
   const handleDecreaseSpeed = () => {
     // Additional logic to decrease the ball speed
+    decreaseBallSpeed(); // Example function to decrease ball speed
   };
-
+  
   const handleHit = () => {
     // Handle hit logic here
+    increaseScore(); // Example function to increase player score
   };
 
   return (
@@ -80,8 +90,8 @@ const TennisCourt = () => {
         onIncreaseSpeed={handleIncreaseSpeed}
         onDecreaseSpeed={handleDecreaseSpeed}
       />
-            <Referee score={score} gameStatus={gameStatus} />
-
+      <Referee score={score} gameStatus={gameStatus} />
+      <Timer />
     </CourtContainer>
   );
 };
