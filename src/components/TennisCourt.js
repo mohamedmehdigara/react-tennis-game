@@ -11,6 +11,7 @@ import TennisBall from './TennisBall';
 import Crowd from './Crowd'; // Ensure this is correctly imported
 import Referee from './Referee'; // Import the Referee component
 import Timer from './Timer';
+import BallLauncher from './BallLauncher';
 
 // Import or define the missing functions
 import { startTimer, pauseTimer, resetGame, resetTimer, increaseBallSpeed, decreaseBallSpeed, increaseScore } from "./gameFunctions"
@@ -26,6 +27,13 @@ const TennisCourt = () => {
   const [gamePaused, setGamePaused] = useState(true);
   const [score, setScore] = useState('0-0'); // Example initial score
   const [gameStatus, setGameStatus] = useState('In Progress');
+  const [ballLaunched, setBallLaunched] = useState(false);
+
+  const handleLaunchBall = () => {
+    // Additional logic to launch the ball
+    setBallLaunched(true);
+  };
+
 
   const handleStart = () => {
     setGamePaused(false);
@@ -92,6 +100,8 @@ const TennisCourt = () => {
       />
       <Referee score={score} gameStatus={gameStatus} />
       <Timer />
+      <BallLauncher onLaunch={handleLaunchBall} />
+
     </CourtContainer>
   );
 };
