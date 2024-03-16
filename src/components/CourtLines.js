@@ -81,6 +81,16 @@ const TLine = styled(VerticalLine)`
   left: calc(50% - 0.67%);
 `;
 
+// New line - Sideline Extension
+const SidelineExtension = styled(VerticalLine)`
+  left: ${({ isRight }) => (isRight ? 'calc(100% - 7.5%)' : '7.5%')};
+`;
+
+// New line - Baseline Extension
+const BaselineExtension = styled(HorizontalLine)`
+  bottom: 80%; /* Adjust based on actual court proportions */
+`;
+
 // CourtLines component
 const CourtLines = ({ courtColor = 'white', lineThickness = '2px' }) => {
   return (
@@ -98,6 +108,9 @@ const CourtLines = ({ courtColor = 'white', lineThickness = '2px' }) => {
       <ServiceBoxLine color={courtColor} thickness={lineThickness} />
       <AlleyLine color={courtColor} thickness={lineThickness} />
       <TLine color={courtColor} thickness={lineThickness} />
+      {/* New lines */}
+      <SidelineExtension color={courtColor} thickness={lineThickness} />
+      <BaselineExtension color={courtColor} thickness={lineThickness} />
     </CourtLinesContainer>
   );
 };

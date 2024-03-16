@@ -11,6 +11,16 @@ const waveAnimation = keyframes`
   }
 `;
 
+// Keyframe animation for spectator bobbing effect
+const bobbingAnimation = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+`;
+
 // Container for the crowd
 const CrowdContainer = styled.div`
   position: absolute;
@@ -25,11 +35,12 @@ const CrowdContainer = styled.div`
 // Spectator styled component
 const Spectator = styled.div`
   display: inline-block;
-  width: 5px;
-  height: 20px;
+  width: ${({ size }) => size}px; // Dynamically adjust spectator size
+  height: ${({ size }) => size}px; // Dynamically adjust spectator size
   background: ${({ color }) => color};
   margin: 0 2px;
-  animation: ${waveAnimation} ${({ duration }) => duration}s ease-in-out infinite;
+  animation: ${waveAnimation} ${({ duration }) => duration}s ease-in-out infinite,
+             ${bobbingAnimation} ${({ duration }) => duration * 2}s ease-in-out infinite; // Add bobbing animation
   animation-delay: ${({ delay }) => delay}s;
 `;
 
@@ -41,7 +52,7 @@ const getRandomColor = () => {
 
 const Crowd = () => {
   // Calculate spectator count based on window width with a minimum of 50 spectators
-  const spectatorCount = Math.max(Math.floor(window.innerWidth / 7.5), 50);
+  const spectatorCount = Math.max(Math.floor(window.innerWidth / 10), 50);
 
   return (
     <CrowdContainer aria-label="animated crowd">
@@ -49,6 +60,7 @@ const Crowd = () => {
         <Spectator
           key={index}
           color={getRandomColor()}
+          size={10 + Math.random() * 10} // Randomize spectator size
           duration={0.75 + Math.random() * 0.5} // Varied duration between 0.75s and 1.25s
           delay={Math.random() * 2} // Random delay up to 2s
           aria-hidden="true" // Hide individual spectators from screen readers for accessibility
