@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const RacketContainer = styled.div`
   position: absolute;
-  left: ${({ leftPosition }) => leftPosition}px;
+  left: 20px;
   top: ${({ topPosition }) => topPosition}px;
   display: flex;
   flex-direction: column;
@@ -13,8 +13,6 @@ const RacketContainer = styled.div`
 const RacketFrame = styled.div`
   width: 10px;
   height: 60px;
-  border: 2px solid #000;
-  border-radius: 5px;
   background: #f1f1f1;
   position: relative;
 `;
@@ -27,18 +25,15 @@ const HandleGrip = styled.div`
   bottom: -10px;
 `;
 
-const LeftRacket = ({ topPosition, moveStep, onHit }) => {
-  const [position, setPosition] = useState(topPosition);
-  const containerRef = useRef(null);
+const LeftRacket = ({ gamePaused }) => {
+  const [positionY, setPositionY] = useState(window.innerHeight / 2 - 30);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowUp' || event.key === 'w') {
-        moveRacket(-moveStep);
-      } else if (event.key === 'ArrowDown' || event.key === 's') {
-        moveRacket(moveStep);
-      } else if (event.key === 'a' || event.key === 'A') {
-        hitBall();
+      if (!gamePaused) {
+        if (event.key === 'a' || event.key === 'A') {
+          setPositionY((prevPosition) => Math.max(0, prevPosition - 10)); // Move up
+        }
       }
     };
 
@@ -47,47 +42,10 @@ const LeftRacket = ({ topPosition, moveStep, onHit }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [moveStep]);
-
-  useEffect(() => {
-    // Function to handle window resizing and updating racket position if necessary
-    const handleResize = () => {
-      const containerHeight = containerRef.current.clientHeight;
-      setPosition(Math.min(position, containerHeight - 60));
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [position]);
-
-  const moveRacket = (step) => {
-    const containerHeight = containerRef.current.clientHeight;
-    const newPosition = Math.max(0, Math.min(position + step, containerHeight - 60));
-    setPosition(newPosition);
-  };
-
-  const hitBall = () => {
-    const ball = document.getElementById('tennis-ball');
-    if (!ball) return; // Ensure the ball element exists
-
-    const ballRect = ball.getBoundingClientRect();
-    const racketRect = containerRef.current.getBoundingClientRect();
-
-    if (
-      ballRect.left <= racketRect.right &&
-      ballRect.right >= racketRect.left &&
-      ballRect.top <= racketRect.bottom &&
-      ballRect.bottom >= racketRect.top
-    ) {
-      onHit(); // Notify parent component that the ball was hit
-    }
-  };
+  }, [gamePaused]);
 
   return (
-    <RacketContainer topPosition={position} ref={containerRef}>
+    <RacketContainer id="left-racket" topPosition={positionY}>
       <RacketFrame>
         <HandleGrip />
       </RacketFrame>

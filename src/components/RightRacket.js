@@ -1,25 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const RacketContainer = styled.div`
   position: absolute;
-  right: 0;
+  right: 20px;
   top: ${({ topPosition }) => topPosition}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const RacketFrame = styled.div`
   width: 10px;
   height: 60px;
-  border: 2px solid #000;
-  border-radius: 5px;
   background: #f1f1f1;
+  position: relative;
 `;
 
-const RightRacket = ({ topPosition, racketColor, onHit }) => {
+const HandleGrip = styled.div`
+  width: 4px;
+  height: 20px;
+  background: #666;
+  position: absolute;
+  bottom: -10px;
+`;
+
+const RightRacket = ({ gamePaused }) => {
+  const [positionY, setPositionY] = useState(window.innerHeight / 2 - 30);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'a' || event.key === 'A') {
-        onHit(); // Call the onHit function when 'A' is pressed
+      if (!gamePaused) {
+        if (event.key === 'p' || event.key === 'P') {
+          setPositionY((prevPosition) => Math.max(0, prevPosition - 10)); // Move up
+        }
       }
     };
 
@@ -28,11 +42,13 @@ const RightRacket = ({ topPosition, racketColor, onHit }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onHit]);
+  }, [gamePaused]);
 
   return (
-    <RacketContainer topPosition={topPosition}>
-      <RacketFrame style={{ backgroundColor: racketColor }} />
+    <RacketContainer id="right-racket" topPosition={positionY}>
+      <RacketFrame>
+        <HandleGrip />
+      </RacketFrame>
     </RacketContainer>
   );
 };
