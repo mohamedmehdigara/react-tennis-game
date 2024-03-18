@@ -1,56 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const RacketContainer = styled.div`
+const Racket = styled.div`
   position: absolute;
-  left: 20px;
-  top: ${({ topPosition }) => topPosition}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const RacketFrame = styled.div`
   width: 10px;
   height: 60px;
-  background: #f1f1f1;
-  position: relative;
+  background-color: #0000ff; /* Adjust racket color */
+  left: 10px; /* Adjust left position as needed */
+  bottom: ${({ position }) => position}px;
 `;
 
-const HandleGrip = styled.div`
-  width: 4px;
-  height: 20px;
-  background: #666;
-  position: absolute;
-  bottom: -10px;
-`;
-
-const LeftRacket = ({ gamePaused }) => {
-  const [positionY, setPositionY] = useState(window.innerHeight / 2 - 30);
+const LeftRacket = ({ onHit, gamePaused }) => {
+  const [position, setPosition] = useState(50); // Initial position
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (!gamePaused) {
-        if (event.key === 'a' || event.key === 'A') {
-          setPositionY((prevPosition) => Math.max(0, prevPosition - 10)); // Move up
-        }
+    const handleKeyPress = (event) => {
+      if ((event.key === 'a' || event.key === 'A') && !gamePaused) {
+        onHit(); // Trigger hit action when A is pressed and game is not paused
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [onHit, gamePaused]);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [gamePaused]);
-
-  return (
-    <RacketContainer id="left-racket" topPosition={positionY}>
-      <RacketFrame>
-        <HandleGrip />
-      </RacketFrame>
-    </RacketContainer>
-  );
+  return <Racket position={position} />;
 };
 
 export default LeftRacket;
